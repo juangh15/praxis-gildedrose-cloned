@@ -222,7 +222,7 @@ public class ItemServiceTest {
 
     @Test
     public void testUpdateQualityOfLegendaryTypeItem(){
-        var item = new Item(0, "Potion", 5, 50, Item.Type.LEGENDARY);
+        var item = new Item(0, "Potion", 5, 80, Item.Type.LEGENDARY);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
         List<Item> itemsUpdated = itemService.updateQuality();
@@ -230,7 +230,7 @@ public class ItemServiceTest {
         assertEquals(0, itemsUpdated.get(0).getId());
         assertEquals("Potion", itemsUpdated.get(0).name);
         assertEquals(5, itemsUpdated.get(0).sellIn);
-        assertEquals(50, itemsUpdated.get(0).quality);
+        assertEquals(80, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.LEGENDARY, itemsUpdated.get(0).type);
         verify(itemRepository,times(1)).save(any());
     }
