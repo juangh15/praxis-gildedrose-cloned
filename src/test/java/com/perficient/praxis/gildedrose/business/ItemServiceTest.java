@@ -28,6 +28,11 @@ public class ItemServiceTest {
 
 
     @Test
+    /**
+     * GIVEN a not existing id of an item in the database
+     * WHEN findById method is called
+     * THEN the service should throw a resource not found exception.
+     */
     public void testGetItemByIdWhenItemWasNotFound(){
 
         when(itemRepository.findById(anyInt())).thenReturn(Optional.empty());
@@ -37,6 +42,11 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid id of an item in the database
+     * WHEN findById method is called
+     * THEN the service should get the item of the database.
+     */
     public void testGetItemByIdSuccess(){
 
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
@@ -131,6 +141,12 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid AGED type item in the database with max quality of 50
+     * WHEN updateQuality method is called
+     * THEN the service should decrease the sellin by 1 and
+     * should not change the value of quality.
+     */
     public void testUpdateQualityOfAgedTypeItemWithQualityFifty(){
         var item = new Item(0, "Cookie", 3, 50, Item.Type.AGED);
         when(itemRepository.findAll()).thenReturn(List.of(item));
@@ -146,8 +162,15 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testUpdateQualityOfAgedTypeItemWithSellInGreaterThanEleven(){
-        var item = new Item(0, "Jamming", 13, 50, Item.Type.TICKETS);
+    /**
+     * GIVEN a valid TICKETS type item in the database with sellin greater than 11
+     * and a quality of 49
+     * WHEN updateQuality method is called
+     * THEN the service should decrease the sellin by 1 and
+     * increase the quality by 1.
+     */
+    public void testUpdateQualityOfTicketsTypeItemWithSellInGreaterThanEleven(){
+        var item = new Item(0, "Jamming", 13, 49, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
         List<Item> itemsUpdated = itemService.updateQuality();
@@ -161,7 +184,14 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testUpdateQualityOfTicketTypeItemWithSellInLessThanElevenMaxQuality(){
+    /**
+     * GIVEN a valid TICKETS type item in the database with sellin less than 11
+     * and a quality of 49
+     * WHEN updateQuality method is called
+     * THEN the service should decrease the sellin by 1 and
+     * increase the quality by 1.
+     */
+    public void testUpdateQualityOfTicketsTypeItemWithSellInLessThanElevenNearMaxQuality(){
         var item = new Item(0, "Jamming", 10, 49, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -176,7 +206,14 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testUpdateQualityOfTicketTypeItemWithSellInLessThanSix(){
+    /**
+     * GIVEN a valid TICKETS type item in the database with sellin less than 6
+     * and a quality of 10
+     * WHEN updateQuality method is called
+     * THEN the service should decrease the sellin by 1 and
+     * increase the quality by 3.
+     */
+    public void testUpdateQualityOfTicketsTypeItemWithSellInLessThanSix(){
         var item = new Item(0, "Jamming", 5, 10, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -191,7 +228,14 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testUpdateQualityOfTicketTypeItemWithSellInLessThanSixMaxQuality(){
+    /**
+     * GIVEN a valid TICKETS type item in the database with sellin less than 6
+     * and a quality of 48
+     * WHEN updateQuality method is called
+     * THEN the service should decrease the sellin by 1 and
+     * increase the quality by 2.
+     */
+    public void testUpdateQualityOfTicketsTypeItemWithSellInLessThanSixNearMaxQuality(){
         var item = new Item(0, "Jamming", 5, 48, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -206,7 +250,13 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void testUpdateQualityOfTicketTypeItemSellInZero(){
+    /**
+     * GIVEN a valid TICKETS type item in the database with sellin equal to 0
+     * WHEN updateQuality method is called
+     * THEN the service should decrease the sellin by 1 and
+     * set the quality to 0.
+     */
+    public void testUpdateQualityOfTicketsTypeItemSellInZero(){
         var item = new Item(0, "Jamming", 0, 10, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -221,6 +271,11 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid LEGENDARY type item in the database with sellin greater than 0
+     * WHEN updateQuality method is called
+     * THEN the service should not change quality or sellin values.
+     */
     public void testUpdateQualityOfLegendaryTypeItem(){
         var item = new Item(0, "Potion", 5, 80, Item.Type.LEGENDARY);
         when(itemRepository.findAll()).thenReturn(List.of(item));
@@ -236,8 +291,14 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid LEGENDARY type item in the database with sellin less than 0
+     * WHEN updateQuality method is called
+     * THEN the service should decrease sellin by 1 and
+     * not change the quality
+     */
     public void testUpdateQualityOfLegendaryTypeItemSellInLessThanZero(){
-        var item = new Item(0, "Potion", -1, 0, Item.Type.LEGENDARY);
+        var item = new Item(0, "Potion", -1, 80, Item.Type.LEGENDARY);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
         List<Item> itemsUpdated = itemService.updateQuality();
@@ -245,12 +306,19 @@ public class ItemServiceTest {
         assertEquals(0, itemsUpdated.get(0).getId());
         assertEquals("Potion", itemsUpdated.get(0).name);
         assertEquals(-1, itemsUpdated.get(0).sellIn);
-        assertEquals(0, itemsUpdated.get(0).quality);
+        assertEquals(80, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.LEGENDARY, itemsUpdated.get(0).type);
         verify(itemRepository,times(1)).save(any());
     }
 
     @Test
+    /**
+     * GIVEN a valid AGED type item in the database with sellin less than 0
+     * and max quality of 50
+     * WHEN updateQuality method is called
+     * THEN the service should decrease sellin by 1 and
+     * not change the quality
+     */
     public void testUpdateQualityOfAgedTypeItemSellInLessThanZeroMaxQuality(){
         var item = new Item(0, "Potion", -1, 50, Item.Type.AGED);
         when(itemRepository.findAll()).thenReturn(List.of(item));
@@ -266,6 +334,13 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid AGED type item in the database with quality less than 50 and
+     * sellin less than 0
+     * WHEN updateQuality method is called
+     * THEN the service should decrease sellin by 1 and
+     * increase the quality by 2.
+     */
     public void testUpdateQualityOfAgedTypeItemWithQualityLessThanFifty(){
         var item = new Item(0, "Cookie", -1, 47, Item.Type.AGED);
         when(itemRepository.findAll()).thenReturn(List.of(item));
@@ -281,6 +356,11 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid item
+     * WHEN createItem method is called
+     * THEN the service should save the item in the database.
+     */
     public void testCreateItem(){
 
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
@@ -292,6 +372,11 @@ public class ItemServiceTest {
 
 
     @Test
+    /**
+     * GIVEN a valid item with id existing in the database
+     * WHEN updateItem method is called
+     * THEN the service should update the item with id in the database.
+     */
     public void testUpdateItemSuccess(){
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
@@ -302,6 +387,11 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN a valid item with id not existing in the database
+     * WHEN updateItem method is called
+     * THEN the service should throw a resource not found exception.
+     */
     public void testUpdateItemException(){
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         when(itemRepository.findById(anyInt())).thenReturn(Optional.empty());
@@ -311,6 +401,11 @@ public class ItemServiceTest {
     }
 
     @Test
+    /**
+     * GIVEN valid items in the database
+     * WHEN listItems method is called
+     * THEN the service should list all items of the database
+     */
     public void testListItemsSuccess(){
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         List<Item> listExpected = List.of(item);
