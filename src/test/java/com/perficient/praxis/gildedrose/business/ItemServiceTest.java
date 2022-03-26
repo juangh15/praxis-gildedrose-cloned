@@ -1,5 +1,6 @@
 package com.perficient.praxis.gildedrose.business;
 
+import com.perficient.praxis.gildedrose.error.ResourceDuplicated;
 import com.perficient.praxis.gildedrose.error.ResourceNotFoundException;
 import com.perficient.praxis.gildedrose.model.Item;
 import com.perficient.praxis.gildedrose.repository.ItemRepository;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Example;
 
 import java.util.List;
 import java.util.Optional;
@@ -415,7 +417,39 @@ public class ItemServiceTest {
         assertEquals(listExpected, listItems);
     }
 
+    @Test
+    /**
+     * GIVEN a valid list of items not existing in database
+     * WHEN createItems method is called
+     * THEN the service should save the items in the database.
+     */
+    public void testCreateItemsSuccess(){
 
+        var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
+        List<Item> listExpected = List.of(item);
+        when(itemRepository.exists(any(Example.class))).thenReturn(false);
+        when(itemRepository.saveAll(any(List.class))).thenReturn(List.of(item));
+
+        List<Item> listItems = itemService.createItems(List.of(item));
+        assertEquals(listExpected, listItems);
+    }
+
+    @Test
+    /**
+     * GIVEN a valid list of items duplicated in database
+     * WHEN createItems method is called
+     * THEN the service should NOT save the items in the database
+     * and throw a resource duplicated exception.
+     */
+    public void testCreateItemsFail(){
+
+        var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
+        List<Item> listExpected = List.of(item);
+        when(itemRepository.exists(any(Example.class))).thenReturn(true);
+
+        assertThrows(ResourceDuplicated.class, () ->
+                itemService.createItems(List.of(item)));
+    }
 
 
 
