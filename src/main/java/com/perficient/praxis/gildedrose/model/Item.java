@@ -42,6 +42,29 @@ public class Item {
         this.id = id;
     }
 
+    public Item updateQuality(){
+        this.quality = this.quality - 1;
+        return this;
+    }
+
+    public void increaseQualityBy(int amount){
+        this.quality += amount;
+    }
+
+    public void decreaseQualityBy(int amount){
+        this.quality -= amount;
+    }
+
+    public void decreaseSellIn(){
+        this.sellIn -= 1;
+    }
+
+    public boolean isPassed(){
+        return this.sellIn < 0;
+    }
+
+
+
     public enum Type {
         AGED,
         NORMAL,
