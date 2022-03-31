@@ -5,7 +5,7 @@ import com.perficient.praxis.gildedrose.error.ResourceNotFoundException;
 public class ItemFactory {
     public static Item createTypedItem(Item baseItem) {
         Item typedItem;
-        switch (baseItem.type){
+        switch (baseItem.type) {
             case NORMAL:
                 typedItem = new NormalItem(baseItem);
                 break;
@@ -25,7 +25,7 @@ public class ItemFactory {
         return typedItem;
     }
 
-    public static Item createUntypedItem(Item typed){
+    public static Item createUntypedItem(Item typed) {
         Item untypedItem = new Item(typed.getId(), typed.name, typed.sellIn, typed.quality, typed.type);
         return untypedItem;
     }

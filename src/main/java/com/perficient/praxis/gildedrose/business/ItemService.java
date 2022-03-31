@@ -10,8 +10,10 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
@@ -28,16 +30,17 @@ public class ItemService {
     }
 
     public List<Item> updateQuality() {
-        var items = itemRepository.findAll();
-        items.forEach(item -> {
-            Item typedItem = ItemFactory.createTypedItem(item);
-            LegendaryItem item2 = new LegendaryItem(item);
-            typedItem.updateQuality();
-            item = ItemFactory.createUntypedItem(typedItem);
-            itemRepository.save(item);
-
-        });
-        return items;
+        ArrayList<Item> items = new ArrayList<>(itemRepository.findAll());
+        ListIterator<Item> listPosition = items.listIterator();
+        while (listPosition.hasNext()) {
+            Item actualItem = listPosition.next();
+            actualItem = ItemFactory.createTypedItem(actualItem);
+            actualItem.updateQuality();
+            actualItem = ItemFactory.createUntypedItem(actualItem);
+            listPosition.set(actualItem);
+            itemRepository.save(actualItem);
+        }
+        return items.stream().toList();
     }
 
 
@@ -45,18 +48,18 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public List<Item> createItems(List<Item> items){
+    public List<Item> createItems(List<Item> items) {
         ExampleMatcher modelMatcher = ExampleMatcher.matching()
                 .withIgnorePaths("id")
                 .withMatcher("name", ignoreCase())
                 .withMatcher("quality", ignoreCase())
                 .withMatcher("sellin", ignoreCase())
                 .withMatcher("type", ignoreCase());
-        for (int i = 0; i<items.size(); i++){
+        for (int i = 0; i < items.size(); i++) {
             Item probe = items.get(i);
             Example<Item> example = Example.of(probe, modelMatcher);
             boolean exists = itemRepository.exists(example);
-            if(exists){
+            if (exists) {
                 throw new ResourceDuplicated("");
             }
         }
@@ -64,19 +67,19 @@ public class ItemService {
     }
 
     public Item updateItem(int id, Item item) {
-        if(itemRepository.findById(id).isPresent()){
+        if (itemRepository.findById(id).isPresent()) {
             return itemRepository.save(new Item(id, item.name, item.sellIn, item.quality, item.type));
-        }else{
+        } else {
             throw new ResourceNotFoundException("");
         }
     }
 
-    public List<Item> listItems(){
+    public List<Item> listItems() {
         return itemRepository.findAll();
     }
 
     public Item findById(int id) {
         return itemRepository.findById(id).orElseThrow(
-                ()-> new ResourceNotFoundException(""));
+                () -> new ResourceNotFoundException(""));
     }
 }

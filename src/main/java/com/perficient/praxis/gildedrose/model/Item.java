@@ -42,27 +42,35 @@ public class Item {
         this.id = id;
     }
 
-    public Item updateQuality(){
+    public Item updateQuality() {
         this.quality = this.quality - 1;
         return this;
     }
 
-    public void increaseQualityBy(int amount){
-        this.quality += amount;
+    public void increaseQualityBy(int amount) {
+        if (this.quality + amount > 50) {
+            this.quality = 50;
+        } else {
+            this.quality += amount;
+        }
+
     }
 
-    public void decreaseQualityBy(int amount){
-        this.quality -= amount;
+    public void decreaseQualityBy(int amount) {
+        if (this.quality - amount < 0) {
+            this.quality = 0;
+        } else {
+            this.quality -= amount;
+        }
     }
 
-    public void decreaseSellIn(){
-        this.sellIn -= 1;
+    public void decreaseSellIn() {
+        this.sellIn = this.sellIn - 1;
     }
 
-    public boolean isPassed(){
+    public boolean isExpired() {
         return this.sellIn < 0;
     }
-
 
 
     public enum Type {
@@ -74,6 +82,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return this.id+ ", " +this.name + ", " + this.sellIn + ", " + this.quality;
+        return this.id + ", " + this.name + ", " + this.sellIn + ", " + this.quality;
     }
 }

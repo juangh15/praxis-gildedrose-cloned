@@ -35,7 +35,7 @@ public class ItemServiceTest {
      * WHEN findById method is called
      * THEN the service should throw a resource not found exception.
      */
-    public void testGetItemByIdWhenItemWasNotFound(){
+    public void testGetItemByIdWhenItemWasNotFound() {
 
         when(itemRepository.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -49,7 +49,7 @@ public class ItemServiceTest {
      * WHEN findById method is called
      * THEN the service should get the item of the database.
      */
-    public void testGetItemByIdSuccess(){
+    public void testGetItemByIdSuccess() {
 
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
@@ -65,7 +65,7 @@ public class ItemServiceTest {
      * THEN the service should update the quality and sellIn values,
      * both will be decreased by 1
      */
-    public void testUpdateQualityOfNormalTypeItem(){
+    public void testUpdateQualityOfNormalTypeItem() {
 
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         when(itemRepository.findAll()).thenReturn(List.of(item));
@@ -77,7 +77,7 @@ public class ItemServiceTest {
         assertEquals(9, itemsUpdated.get(0).sellIn);
         assertEquals(29, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.NORMAL, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class ItemServiceTest {
      * THEN the service should update the quality decreasing it by 1
      * and update sellIn decreasing it by 2
      */
-    public void testUpdateQualityOfNormalTypeItemSellInPassed(){
+    public void testUpdateQualityOfNormalTypeItemSellInPassed() {
         var item = new Item(0, "Cookie", -1, 30, Item.Type.NORMAL);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -98,7 +98,7 @@ public class ItemServiceTest {
         assertEquals(-2, itemsUpdated.get(0).sellIn);
         assertEquals(28, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.NORMAL, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class ItemServiceTest {
      * WHEN updateQuality method is called
      * THEN the service should not decrease the quality
      */
-    public void testUpdateQualityOfNormalTypeItemQualityNeverNegative(){
+    public void testUpdateQualityOfNormalTypeItemQualityNeverNegative() {
         var item = new Item(0, "Cookie", 2, 0, Item.Type.NORMAL);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -118,7 +118,7 @@ public class ItemServiceTest {
         assertEquals(1, itemsUpdated.get(0).sellIn);
         assertEquals(0, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.NORMAL, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -128,7 +128,7 @@ public class ItemServiceTest {
      * THEN the service should decrease the sellin by 1 and
      * increase the quality by 1
      */
-    public void testUpdateQualityOfAgedTypeItem(){
+    public void testUpdateQualityOfAgedTypeItem() {
         var item = new Item(0, "Cookie", 3, 49, Item.Type.AGED);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -139,7 +139,7 @@ public class ItemServiceTest {
         assertEquals(2, itemsUpdated.get(0).sellIn);
         assertEquals(50, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.AGED, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -149,7 +149,7 @@ public class ItemServiceTest {
      * THEN the service should decrease the sellin by 1 and
      * should not change the value of quality.
      */
-    public void testUpdateQualityOfAgedTypeItemWithQualityFifty(){
+    public void testUpdateQualityOfAgedTypeItemWithQualityFifty() {
         var item = new Item(0, "Cookie", 3, 50, Item.Type.AGED);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -160,7 +160,7 @@ public class ItemServiceTest {
         assertEquals(2, itemsUpdated.get(0).sellIn);
         assertEquals(50, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.AGED, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -171,7 +171,7 @@ public class ItemServiceTest {
      * THEN the service should decrease the sellin by 1 and
      * increase the quality by 1.
      */
-    public void testUpdateQualityOfTicketsTypeItemWithSellInGreaterThanEleven(){
+    public void testUpdateQualityOfTicketsTypeItemWithSellInGreaterThanEleven() {
         var item = new Item(0, "Jamming", 13, 49, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -182,7 +182,7 @@ public class ItemServiceTest {
         assertEquals(12, itemsUpdated.get(0).sellIn);
         assertEquals(50, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -193,7 +193,7 @@ public class ItemServiceTest {
      * THEN the service should decrease the sellin by 1 and
      * increase the quality by 1.
      */
-    public void testUpdateQualityOfTicketsTypeItemWithSellInLessThanElevenNearMaxQuality(){
+    public void testUpdateQualityOfTicketsTypeItemWithSellInLessThanElevenNearMaxQuality() {
         var item = new Item(0, "Jamming", 10, 49, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -204,7 +204,7 @@ public class ItemServiceTest {
         assertEquals(9, itemsUpdated.get(0).sellIn);
         assertEquals(50, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -215,7 +215,7 @@ public class ItemServiceTest {
      * THEN the service should decrease the sellin by 1 and
      * increase the quality by 3.
      */
-    public void testUpdateQualityOfTicketsTypeItemWithSellInLessThanSix(){
+    public void testUpdateQualityOfTicketsTypeItemWithSellInLessThanSix() {
         var item = new Item(0, "Jamming", 5, 10, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -226,7 +226,7 @@ public class ItemServiceTest {
         assertEquals(4, itemsUpdated.get(0).sellIn);
         assertEquals(13, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -237,7 +237,7 @@ public class ItemServiceTest {
      * THEN the service should decrease the sellin by 1 and
      * increase the quality by 2.
      */
-    public void testUpdateQualityOfTicketsTypeItemWithSellInLessThanSixNearMaxQuality(){
+    public void testUpdateQualityOfTicketsTypeItemWithSellInLessThanSixNearMaxQuality() {
         var item = new Item(0, "Jamming", 5, 48, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -248,7 +248,7 @@ public class ItemServiceTest {
         assertEquals(4, itemsUpdated.get(0).sellIn);
         assertEquals(50, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -258,7 +258,7 @@ public class ItemServiceTest {
      * THEN the service should decrease the sellin by 1 and
      * set the quality to 0.
      */
-    public void testUpdateQualityOfTicketsTypeItemSellInZero(){
+    public void testUpdateQualityOfTicketsTypeItemSellInZero() {
         var item = new Item(0, "Jamming", 0, 10, Item.Type.TICKETS);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -269,7 +269,7 @@ public class ItemServiceTest {
         assertEquals(-1, itemsUpdated.get(0).sellIn);
         assertEquals(0, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.TICKETS, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -278,7 +278,7 @@ public class ItemServiceTest {
      * WHEN updateQuality method is called
      * THEN the service should not change quality or sellin values.
      */
-    public void testUpdateQualityOfLegendaryTypeItem(){
+    public void testUpdateQualityOfLegendaryTypeItem() {
         var item = new Item(0, "Potion", 5, 80, Item.Type.LEGENDARY);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -289,7 +289,7 @@ public class ItemServiceTest {
         assertEquals(5, itemsUpdated.get(0).sellIn);
         assertEquals(80, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.LEGENDARY, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -299,7 +299,7 @@ public class ItemServiceTest {
      * THEN the service should decrease sellin by 1 and
      * not change the quality
      */
-    public void testUpdateQualityOfLegendaryTypeItemSellInLessThanZero(){
+    public void testUpdateQualityOfLegendaryTypeItemSellInLessThanZero() {
         var item = new Item(0, "Potion", -1, 80, Item.Type.LEGENDARY);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -310,7 +310,7 @@ public class ItemServiceTest {
         assertEquals(-1, itemsUpdated.get(0).sellIn);
         assertEquals(80, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.LEGENDARY, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -321,7 +321,7 @@ public class ItemServiceTest {
      * THEN the service should decrease sellin by 1 and
      * not change the quality
      */
-    public void testUpdateQualityOfAgedTypeItemSellInLessThanZeroMaxQuality(){
+    public void testUpdateQualityOfAgedTypeItemSellInLessThanZeroMaxQuality() {
         var item = new Item(0, "Potion", -1, 50, Item.Type.AGED);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -332,7 +332,7 @@ public class ItemServiceTest {
         assertEquals(-2, itemsUpdated.get(0).sellIn);
         assertEquals(50, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.AGED, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -343,7 +343,7 @@ public class ItemServiceTest {
      * THEN the service should decrease sellin by 1 and
      * increase the quality by 2.
      */
-    public void testUpdateQualityOfAgedTypeItemWithQualityLessThanFifty(){
+    public void testUpdateQualityOfAgedTypeItemWithQualityLessThanFifty() {
         var item = new Item(0, "Cookie", -1, 47, Item.Type.AGED);
         when(itemRepository.findAll()).thenReturn(List.of(item));
 
@@ -354,7 +354,7 @@ public class ItemServiceTest {
         assertEquals(-2, itemsUpdated.get(0).sellIn);
         assertEquals(49, itemsUpdated.get(0).quality);
         assertEquals(Item.Type.AGED, itemsUpdated.get(0).type);
-        verify(itemRepository,times(1)).save(any());
+        verify(itemRepository, times(1)).save(any());
     }
 
     @Test
@@ -363,7 +363,7 @@ public class ItemServiceTest {
      * WHEN createItem method is called
      * THEN the service should save the item in the database.
      */
-    public void testCreateItem(){
+    public void testCreateItem() {
 
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         when(itemRepository.save(any(Item.class))).thenReturn(item);
@@ -379,7 +379,7 @@ public class ItemServiceTest {
      * WHEN updateItem method is called
      * THEN the service should update the item with id in the database.
      */
-    public void testUpdateItemSuccess(){
+    public void testUpdateItemSuccess() {
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         when(itemRepository.findById(anyInt())).thenReturn(Optional.of(item));
         when(itemRepository.save(any(Item.class))).thenReturn(item);
@@ -394,7 +394,7 @@ public class ItemServiceTest {
      * WHEN updateItem method is called
      * THEN the service should throw a resource not found exception.
      */
-    public void testUpdateItemException(){
+    public void testUpdateItemException() {
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         when(itemRepository.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -408,7 +408,7 @@ public class ItemServiceTest {
      * WHEN listItems method is called
      * THEN the service should list all items of the database
      */
-    public void testListItemsSuccess(){
+    public void testListItemsSuccess() {
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         List<Item> listExpected = List.of(item);
         when(itemRepository.findAll()).thenReturn(List.of(item));
@@ -423,7 +423,7 @@ public class ItemServiceTest {
      * WHEN createItems method is called
      * THEN the service should save the items in the database.
      */
-    public void testCreateItemsSuccess(){
+    public void testCreateItemsSuccess() {
 
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         List<Item> listExpected = List.of(item);
@@ -441,7 +441,7 @@ public class ItemServiceTest {
      * THEN the service should NOT save the items in the database
      * and throw a resource duplicated exception.
      */
-    public void testCreateItemsFail(){
+    public void testCreateItemsFail() {
 
         var item = new Item(0, "Oreo", 10, 30, Item.Type.NORMAL);
         List<Item> listExpected = List.of(item);
@@ -450,13 +450,6 @@ public class ItemServiceTest {
         assertThrows(ResourceDuplicated.class, () ->
                 itemService.createItems(List.of(item)));
     }
-
-
-
-
-
-
-
 
 
 }
