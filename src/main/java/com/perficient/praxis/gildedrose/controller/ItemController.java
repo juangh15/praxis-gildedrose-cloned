@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -43,7 +45,7 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<Item> createItem(@RequestBody Item item){
+    public ResponseEntity<Item> createItem(@Valid @RequestBody Item item){
         Item createdItem = itemService.createItem(item);
         return new ResponseEntity<>(createdItem, HttpStatus.CREATED);
     }
@@ -52,13 +54,19 @@ public class ItemController {
     public ResponseEntity<Item> updateItem(@PathVariable int id,
                                            @RequestBody Item item){
         Item createdItem = itemService.updateItem(id, item);
-        return new ResponseEntity<>(createdItem, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdItem, HttpStatus.OK);
     }
 
     @PostMapping("/quality")
     public ResponseEntity<List<Item>> updateItemsQuality(){
         var items = itemService.updateQuality();
         return new ResponseEntity<>(items, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Item> deleteById(@PathVariable int id){
+        itemService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

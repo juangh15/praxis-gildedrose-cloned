@@ -1,24 +1,36 @@
 package com.perficient.praxis.gildedrose.model;
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
 @Table(name = "items")
+@Data
 public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @NotBlank(message = "Name is mandatory")
     public String name;
 
+    @NotNull(message = "sellIn is mandatory")
     public int sellIn;
 
+    @NotNull(message = "quality is mandatory")
+    @Min(0)
+    @Max(80)
     public int quality;
 
     public Type type;
