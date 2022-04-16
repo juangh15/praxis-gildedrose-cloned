@@ -21,5 +21,11 @@ source /etc/profile
 
 git clone https://github.com/juangh15/praxis-gildedrose-cloned.git
 cd praxis-gildedrose-cloned
-mvn install
-java -jar target/gildedrose-0.0.1-SNAPSHOT.jar
+mvn package
+sudo rm -rf /etc/systemd/system/Praxis_Gildedrose_API.service
+
+sudo printf "[Unit]\nDescription=Praxis_Gildedrose_API\nAfter=syslog.target\n\n[Service]\nUser=root\nExecStart=/opt/jdk-17/bin/java -jar /home/vagrant/praxis-gildedrose-cloned/target/gildedrose-0.0.1-SNAPSHOT.jar\nSuccessExitStatus=143\n\n[Install]\nWantedBy=multi-user.target" | sudo tee -a /etc/systemd/system/Praxis_Gildedrose_API.service
+
+sudo systemctl daemon-reload
+sudo systemctl enable Praxis_Gildedrose_API.service
+sudo systemctl start Praxis_Gildedrose_API.service

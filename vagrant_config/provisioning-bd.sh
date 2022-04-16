@@ -13,3 +13,4 @@ echo \
 apt-get update
 apt-get install -y docker-ce docker-ce-cli containerd.io
 docker run --name my-postgres -e POSTGRES_PASSWORD=secret -p 5433:5432 -d postgres
+docker update --restart always my-postgres
