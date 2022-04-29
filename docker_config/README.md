@@ -49,8 +49,9 @@ Check that the image with the name "gildedrose-api" is present when running:
 
 You need to have a postgresql database running in the background, it is recommended to use a docker container with the following:
 
-```docker run --name my-postgres -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres```
-
+```
+docker run --name my-postgres -e POSTGRES_PASSWORD=secret -p 5432:5432 -d postgres
+```
 No additional steps are needed for the database, everything needed regarding relations will be done automatically by the SpringBoot API.
 #### 2 - Create an internal network for the database and the API:
 This step ensures that the communication between the DB containers and the API is isolated from other containers. Additionally, the IP of the DB can be referenced only with the name of the container ("my-postgres"), this for the connection that SpringBoot makes internally. To do this enter the commands:
