@@ -1,6 +1,5 @@
 node{
     stage('Build image'){
-      sh 'cd ./docker_config'
       sh 'docker build --no-cache --build-arg POSTGRES_IP_ARG=35.173.31.212 --build-arg POSTGRES_PORT_ARG=5432 --build-arg POSTGRES_USER_ARG=postgres --build-arg POSTGRES_PASSWORD_ARG=secret -t gildedrose-api .'
     }
     stage('Push image'){
