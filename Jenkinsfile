@@ -10,7 +10,7 @@ pipeline{
             steps{
                 withCredentials([string(credentialsId: 'dockerHubPassword', variable: 'dockerHubPassword')]) {
                 sh "docker login -u juangh15 -p ${dockerHubPassword}"
-                    sh 'docker push juangh15/gildedrose-backend:2.0.0'
+                    sh 'docker push gildedrose-api'
             }
 
           
