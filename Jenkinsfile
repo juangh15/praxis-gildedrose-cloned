@@ -9,7 +9,7 @@ pipeline{
         stage('Push image'){
             steps{
                 withCredentials([string(credentialsId: 'dockerHubPassword', variable: 'dockerHubPassword')]) {
-                sh "docker login -u juangh15 -p ${dockerHubPassword}"
+                sh 'docker login -u juangh15 -p $dockerHubPassword'
                     sh 'docker push gildedrose-api'
             }
 
