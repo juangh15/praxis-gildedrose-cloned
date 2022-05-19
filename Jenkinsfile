@@ -3,7 +3,10 @@ pipeline{
     stages{
         stage('Build image'){
             steps{
-                 sh 'docker build --no-cache --build-arg POSTGRES_IP_ARG=35.173.31.212 --build-arg POSTGRES_PORT_ARG=5432 --build-arg POSTGRES_USER_ARG=postgres --build-arg POSTGRES_PASSWORD_ARG=secret -t juangh15/gildedrose-api /var/lib/jenkins/workspace/backend/'
+                withCredentials([string(credentialsId: 'POSTGRES_IP', variable: 'POSTGRES_IP')]) {
+                 sh 'docker build --no-cache --build-arg POSTGRES_IP_ARG=$POSTGRES_IP --build-arg POSTGRES_PORT_ARG=5432 --build-arg POSTGRES_USER_ARG=postgres --build-arg POSTGRES_PASSWORD_ARG=secret -t juangh15/gildedrose-api /var/lib/jenkins/workspace/backend/'
+            }
+                 
             }
         }
         stage('Push image'){
