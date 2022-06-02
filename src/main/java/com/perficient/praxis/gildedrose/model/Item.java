@@ -41,7 +41,7 @@ public class Item {
     public Item(int id, String name, int sellIn, int quality, Type type) {
         this.id = id;
         this.name = name;
-        this.sellIn = sellIn;
+        this.sellIn = sellIn+2;
         this.quality = quality;
         this.type = type;
     }
