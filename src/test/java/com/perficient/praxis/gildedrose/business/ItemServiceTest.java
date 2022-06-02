@@ -46,7 +46,7 @@ public class ItemServiceTest {
     @Test
     /**
      * GIVEN a valid id of an item in the database
-     * WHEN findById method is called
+     * WHEN findById method is called..
      * THEN the service should get the item of the database.
      */
     public void testGetItemByIdSuccess() {
