@@ -22,7 +22,7 @@ Pretty simple, right? Well this is where it gets interesting:
 	- The LEGENDARY items, never has to be sold or decreases in Quality
 	- The items of type TICKETS , like the AGED ones, increases in Quality as its SellIn value approaches;
 	   Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but
-	   Quality drops to 0 after the concert
+	   Quality drops to 0 after the concert.
 
 We have recently signed a supplier of conjured items. This requires an update to our system:
 
