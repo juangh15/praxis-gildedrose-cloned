@@ -8,7 +8,7 @@ have a system in place that updates our inventory for us. It was developed by a 
 Leeroy, who has moved on to new adventures. Your task is to add the new feature to our system so that
 we can begin selling a new category of items. First an introduction to our system:
 
-	- All items have a SellIn value which denotes the number of days we have to sell the item
+	- All items have a SellIn value which denotes the number of days we have to sell the item.
 	- All items have a Quality value which denotes how valuable the item is
 	- All items have a Type value which denotes what kind of item it is, it could be: NORMAL,AGED,LEGENDARY or TICKETS
 	- At the end of each day our system lowers both values (SellIn and Quality) for every item
