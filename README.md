@@ -43,4 +43,4 @@ https://github.com/emilybache/GildedRose-Refactoring-Kata/blob/main/GildedRoseRe
 ##### Homework 1
 - Modify updateItem method of ItemService to validate if the item exists before calling the repository to update, It must throw an exception when item was not found.
 - Implement necessary test cases to achieve 100% coverage. Each test case must be documented using BDD approach(Given, when, then).
-- (Bonus) Implement Create batch Item endpoint, the endpoint may receive a list of items and save them to the database. You should validate there is no two items with the same values, if so you must throw an error.  
+- (Bonus) Implement Create batch Item endpoint, the endpoint may receive a list of items and save them to the database. You should validate there is no two items with the same values, if so you must throw an error...  
